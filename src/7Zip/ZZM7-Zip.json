@@ -1,0 +1,269 @@
+{
+    "ZZM_7ZIP": {
+        "Type": "Folder",
+        "BusinessFields": [{
+            "TeamCode": "ZZM"
+        }],
+        "ControlmServer": "ctm-em.trybmc.local",
+        "OrderMethod": "Manual",
+        "RunAs": "mftuser",
+        "SiteStandard": "ZZM MFT Site Standard",
+        "SubApplication": "Data Compression",
+        "CreatedBy": "orchestratror@bmc.com",
+        "Application": "ZZM 7ZIP",
+        "DaysKeepActiveIfNotOk": "1",
+        "DocumentationUrl": {
+            "Url": "https://github.com/Orch3strator/ctm-ai-modules"
+        },
+        "When": {
+            "RuleBasedCalendars": {
+                "Included": [
+                    "EVERYDAY"
+                ],
+                "EVERYDAY": {
+                    "Type": "Calendar:RuleBased",
+                    "When": {
+                        "DaysRelation": "OR",
+                        "WeekDays": [
+                            "NONE"
+                        ],
+                        "MonthDays": [
+                            "ALL"
+                        ]
+                    }
+                }
+            }
+        },
+        "ZZM Chek File Size": {
+            "Type": "Job:FileTransfer",
+            "ConnectionProfileSrc": "ZZM_LFS_AGT",
+            "ConnectionProfileDest": "ZZM_LFS_AGT",
+            "SubApplication": "Data Compression",
+            "Host": "ZZM_AGT_02",
+            "CreatedBy": "emuser",
+            "RunAs": "ZZM_LFS_AGT+ZZM_LFS_AGT",
+            "Application": "ZZM 7ZIP",
+            "Variables": [{
+                    "FTP-LOSTYPE": "Unix"
+                },
+                {
+                    "FTP-CONNTYPE1": "File System"
+                },
+                {
+                    "FTP-LHOST": "<Agent Host>"
+                },
+                {
+                    "FTP-LUSER": "mftuser"
+                },
+                {
+                    "FTP-ROSTYPE": "Unix"
+                },
+                {
+                    "FTP-CONNTYPE2": "File System"
+                },
+                {
+                    "FTP-RHOST": "<Agent Host>"
+                },
+                {
+                    "FTP-RUSER": "mftuser"
+                },
+                {
+                    "FTP-CM_VER": "9.0.00"
+                },
+                {
+                    "FTP-OVERRIDE_WATCH_INTERVAL1": "0"
+                }
+            ],
+            "FileTransfers": [{
+                "TransferType": "Binary",
+                "TransferOption": "FileWatcher",
+                "Src": "/tmp/sample.log",
+                "ABSTIME": "0",
+                "TIMELIMIT": "1",
+                "UNIQUE": "0",
+                "SRCOPT": "0",
+                "IF_EXIST": "0",
+                "DSTOPT": "0",
+                "RECURSIVE": "0",
+                "EXCLUDE_WILDCARD": "0",
+                "TRIM": "1",
+                "NULLFLDS": "0",
+                "VERNUM": "0",
+                "CASEIFS": "0",
+                "FileWatcherOptions": {
+                    "VariableType": "Global",
+                    "MinDetectedSizeInBytes": "4096",
+                    "UnitsOfTimeLimit": "Minutes"
+                },
+                "IncrementalTransfer": {
+                    "IncrementalTransferEnabled": false,
+                    "MaxModificationAgeForFirstRunEnabled": false,
+                    "MaxModificationAgeForFirstRunInHours": "1"
+                }
+            }],
+            "When": {
+                "WeekDays": [
+                    "NONE"
+                ],
+                "MonthDays": [
+                    "ALL"
+                ],
+                "DaysRelation": "OR"
+            },
+            "IfBase:Folder:CompletionStatus_10": {
+                "Type": "If:CompletionStatus",
+                "CompletionStatus": "NOTOK",
+                "Event:Add_0": {
+                    "Type": "Event:Add",
+                    "Event": "ZZM_UC_WNLY_FILE_SMALL_%%SMART_ORDERID"
+                }
+            },
+            "IfBase:Folder:CompletionStatus_11": {
+                "Type": "If:CompletionStatus",
+                "CompletionStatus": "OK",
+                "Event:Add_0": {
+                    "Type": "Event:Add",
+                    "Event": "ZZM_UC_WNLY_FILE_LARGE_%%SMART_ORDERID"
+                }
+            },
+            "IfBase:Folder:CompletionStatus_12": {
+                "Type": "If:CompletionStatus",
+                "CompletionStatus": "NOTOK",
+                "Action:SetToOK_0": {
+                    "Type": "Action:SetToOK"
+                }
+            },
+            "eventsToAdd": {
+                "Type": "AddEvents",
+                "Events": [{
+                        "Event": "ZZM_Chek_File_Size-TO-ZZM_File_&_Data_Compression_%%SMART_ORDERID"
+                    },
+                    {
+                        "Event": "ZZM_Chek_File_Size-TO-ZZM_Leave_File_As_Is_%%SMART_ORDERID"
+                    }
+                ]
+            }
+        },
+        "ZZM End Folder": {
+            "Type": "Job:Dummy",
+            "SubApplication": "Data Compression",
+            "EndFolder": true,
+            "CreatedBy": "orchestrator@bmc.com",
+            "RunAs": "mftuser",
+            "Application": "ZZM 7ZIP",
+            "When": {
+                "WeekDays": [
+                    "NONE"
+                ],
+                "MonthDays": [
+                    "ALL"
+                ],
+                "DaysRelation": "OR"
+            },
+            "eventsToWaitFor": {
+                "Type": "WaitForEvents",
+                "Events": [{
+                        "Event": "ZZM_Leave_File_As_Is-TO-ZZM_End_Folder_%%SMART_ORDERID"
+                    },
+                    "OR",
+                    {
+                        "Event": "ZZM_File_&_Data_Compression-TO-ZZM_End_Folder_%%SMART_ORDERID"
+                    }
+                ]
+            },
+            "eventsToDelete": {
+                "Type": "DeleteEvents",
+                "Events": [{
+                        "Event": "ZZM_Leave_File_As_Is-TO-ZZM_End_Folder_%%SMART_ORDERID"
+                    },
+                    {
+                        "Event": "ZZM_File_&_Data_Compression-TO-ZZM_End_Folder_%%SMART_ORDERID"
+                    }
+                ]
+            }
+        },
+        "ZZM File & Data Compression": {
+            "Type": "Job:ApplicationIntegrator:AI ZZM 7Zip",
+            "ConnectionProfile": "ZZM-7ZIP",
+            "AI-Operation": "Add files to archive",
+            "AI-Source File(s)": "/tmp/sample.log",
+            "SubApplication": "Data Compression",
+            "Host": "ZZM_AGT_02",
+            "CreatedBy": "orchestrator@bmc.com",
+            "RunAs": "ZZM-7ZIP",
+            "Application": "ZZM 7ZIP",
+            "DocumentationUrl": {
+                "Url": "https://github.com/Orch3strator/ctm-ai-modules"
+            },
+            "When": {
+                "WeekDays": [
+                    "NONE"
+                ],
+                "MonthDays": [
+                    "ALL"
+                ],
+                "DaysRelation": "OR"
+            },
+            "eventsToWaitFor": {
+                "Type": "WaitForEvents",
+                "Events": [{
+                        "Event": "ZZM_UC_WNLY_FILE_LARGE_%%SMART_ORDERID"
+                    },
+                    {
+                        "Event": "ZZM_Chek_File_Size-TO-ZZM_File_&_Data_Compression_%%SMART_ORDERID"
+                    }
+                ]
+            },
+            "eventsToAdd": {
+                "Type": "AddEvents",
+                "Events": [{
+                    "Event": "ZZM_File_&_Data_Compression-TO-ZZM_End_Folder_%%SMART_ORDERID"
+                }]
+            },
+            "eventsToDelete": {
+                "Type": "DeleteEvents",
+                "Events": [{
+                    "Event": "ZZM_Chek_File_Size-TO-ZZM_File_&_Data_Compression_%%SMART_ORDERID"
+                }]
+            }
+        },
+        "ZZM Leave File As Is": {
+            "Type": "Job:Dummy",
+            "SubApplication": "Data Compression",
+            "CreatedBy": "orchestrator@bmc.com",
+            "RunAs": "mftuser",
+            "Application": "ZZM 7ZIP",
+            "When": {
+                "WeekDays": [
+                    "NONE"
+                ],
+                "MonthDays": [
+                    "ALL"
+                ],
+                "DaysRelation": "OR"
+            },
+            "eventsToWaitFor": {
+                "Type": "WaitForEvents",
+                "Events": [{
+                        "Event": "ZZM_UC_WNLY_FILE_SMALL_%%SMART_ORDERID"
+                    },
+                    {
+                        "Event": "ZZM_Chek_File_Size-TO-ZZM_Leave_File_As_Is_%%SMART_ORDERID"
+                    }
+                ]
+            },
+            "eventsToAdd": {
+                "Type": "AddEvents",
+                "Events": [{
+                    "Event": "ZZM_Leave_File_As_Is-TO-ZZM_End_Folder_%%SMART_ORDERID"
+                }]
+            },
+            "eventsToDelete": {
+                "Type": "DeleteEvents",
+                "Events": [{
+                    "Event": "ZZM_Chek_File_Size-TO-ZZM_Leave_File_As_Is_%%SMART_ORDERID"
+                }]
+            }
+        }
+    }
+}

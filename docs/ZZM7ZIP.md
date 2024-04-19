@@ -28,4 +28,15 @@ Source: [**ZZM7ZIP.ctmai**](../src/7Zip/ZZM7ZIP.ctmai)
 
 ## Screenmshots
 
-![ZZM File & Data Compression](images/zzm-7zip.png)
+7-Zip options in Control-M Job
+
+![ZZM File & Data Compression Options](images/zzm-7zip.png)
+
+
+### Example
+
+If the filesize if greater than 4096 Bytes, add the file to an archive. Using the "File Watcher" capability of the [File Transfer](../src/7Zip/ZZM7-Zip.json) job type.
+Check the "OnDo" Actions to better understand the process logic.
+
+
+![ZZM File & Data Compression Workflow](images/zzm-7zip-workflow.png)
