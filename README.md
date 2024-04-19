@@ -13,7 +13,7 @@ These modules are for **educational** purposes.
 
 ## License
 
-(c) 2024 Volker Scheithauer
+(c) 2024 Orch3strator
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
 rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
@@ -27,5 +27,7 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER I
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 https://opensource.org/license/GPL-2.0
-# SPDX-License-Identifier: GPL-2.0
+
+
+### SPDX-License-Identifier: GPL-2.0
 For information on SDPX, https://spdx.org/licenses/GPL-2.0.html
