@@ -15,4 +15,4 @@ Operations:
 - Integrity Test
 - Remove Archive
 
-Source: [**ZZM7ZIP.ctmai**}(../src/7Zip/ZZM7ZIP.ctmai)
+Source: [**ZZM7ZIP.ctmai**](../src/7Zip/ZZM7ZIP.ctmai)

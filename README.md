@@ -9,5 +9,5 @@ These modules are for **educational** purposes.
 
 | ID | Name | Description |
 | :---- | :---- | :---- |
-| [**ZZM7ZIP**}(docs/ZZM7ZIP.md) | ZZM 7Zip | 7-Zip is a file archiver with a high compression ratio. |
+| [**ZZM7ZIP**](docs/ZZM7ZIP.md) | ZZM 7Zip | 7-Zip is a file archiver with a high compression ratio. |
 
