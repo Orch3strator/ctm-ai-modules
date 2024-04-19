@@ -1,11 +1,10 @@
 # Control-M AI Tools
 
 Basic modules Control-M Application Integrator
+
 These modules are for **educational** purposes.
 
 ## Core modules and purpose
-
-- **w3rkstatt** base python functions for project support
 
 | ID | Name | Description |
 | :---- | :---- | :---- |

@@ -28,4 +28,4 @@ Source: [**ZZM7ZIP.ctmai**](../src/7Zip/ZZM7ZIP.ctmai)
 
 ## Screenmshots
 
-[ZZM File & Data Compression](images/zzm-7zip.png)
+![ZZM File & Data Compression](images/zzm-7zip.png)
